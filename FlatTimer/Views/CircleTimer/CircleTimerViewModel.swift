@@ -11,14 +11,13 @@ import RxSwift
 import RxCocoa
 
 final class CircleTimerViewModel {
-
-    private let timeLength: TimeInterval = 12
     private let perSecond: TimeInterval = 25
 
     private let bag = DisposeBag()
-
     private let executionInProgress = BehaviorSubject<Bool>(value: false)
     private let timerInterval = PublishSubject<Int>()
+
+    let timeLength: TimeInterval = 12
 
     var isExecuting: Observable<Bool> {
         return executionInProgress.asObservable()

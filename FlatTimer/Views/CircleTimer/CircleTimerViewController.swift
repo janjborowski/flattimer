@@ -16,6 +16,7 @@ final class CircleTimerViewController: UIViewController {
 
     var viewModel: CircleTimerViewModel!
 
+    @IBOutlet weak var circleTimerView: CircleTimerView!
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var startButton: UIButton!
 
@@ -42,14 +43,18 @@ final class CircleTimerViewController: UIViewController {
 
         executionInProgress.subscribe(onNext: { [weak self] (_) in
                 self?.startButton.backgroundColor = .darkOrange
-                self?.view.backgroundColor = .darkBlue
+                UIView.animate(withDuration: 0.2, animations: {
+                    self?.view.backgroundColor = .darkBlue
+                })
                 self?.setNeedsStatusBarAppearanceUpdate()
             })
             .disposed(by: bag)
 
         noExecution.subscribe(onNext: { [weak self] (_) in
                 self?.startButton.backgroundColor = .lightOrange
-                self?.view.backgroundColor = .darkOrange
+                UIView.animate(withDuration: 0.2, animations: {
+                    self?.view.backgroundColor = .darkOrange
+                })
                 self?.setNeedsStatusBarAppearanceUpdate()
             })
             .disposed(by: bag)
@@ -59,13 +64,19 @@ final class CircleTimerViewController: UIViewController {
 
         buttonTapOnExecuting.filter { !$0 }
             .subscribe(onNext: { [weak self] (_) in
-                self?.viewModel.startTimer()
+                guard let weakSelf = self else {
+                    return
+                }
+
+                weakSelf.circleTimerView.startAnimation(duration: weakSelf.viewModel.timeLength)
+                weakSelf.viewModel.startTimer()
             })
             .disposed(by: bag)
 
         buttonTapOnExecuting.filter { $0 }
             .subscribe(onNext: { [weak self] (_) in
                 self?.viewModel.stopTimer()
+                self?.circleTimerView.stopAnimation()
             })
             .disposed(by: bag)
 

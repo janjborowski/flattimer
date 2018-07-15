@@ -84,6 +84,7 @@
                         <viewLayoutGuide key="safeArea" id="Zho-Ll-uIL"/>
                     </view>
                     <connections>
+                        <outlet property="circleTimerView" destination="QWA-om-i3O" id="Sts-jV-qUV"/>
                         <outlet property="startButton" destination="QIy-vf-wHu" id="yUF-Lr-tDq"/>
                         <outlet property="timerLabel" destination="Pwt-eE-UDm" id="q43-8B-6pJ"/>
                     </connections>
