@@ -69,9 +69,7 @@
 		3F87B82020FB3CEC007A3D64 /* FlatTimer */ = {
 			isa = PBXGroup;
 			children = (
-				3F87B83720FB3D65007A3D64 /* Models */,
 				3F87B83820FB3D65007A3D64 /* Resources */,
-				3F87B83520FB3D65007A3D64 /* Services */,
 				3F87B83620FB3D65007A3D64 /* Utilities */,
 				3F87B83320FB3D65007A3D64 /* Views */,
 				3F87B82120FB3CEC007A3D64 /* AppDelegate.swift */,
@@ -91,26 +89,12 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		3F87B83520FB3D65007A3D64 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		3F87B83620FB3D65007A3D64 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				3F87B84620FB3F55007A3D64 /* UIColor+FlatTimer.swift */,
 			);
 			path = Utilities;
-			sourceTree = "<group>";
-		};
-		3F87B83720FB3D65007A3D64 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		3F87B83820FB3D65007A3D64 /* Resources */ = {
