@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F1CF88521032C6F0043DB19 /* CGPoint+Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1CF88421032C6F0043DB19 /* CGPoint+Vector.swift */; };
+		3F1CF887210355F40043DB19 /* CircularLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1CF886210355F40043DB19 /* CircularLayer.swift */; };
 		3F87B82220FB3CEC007A3D64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F87B82120FB3CEC007A3D64 /* AppDelegate.swift */; };
 		3F87B83B20FB3D65007A3D64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F87B83920FB3D65007A3D64 /* Assets.xcassets */; };
 		3F87B84020FB3D94007A3D64 /* CircleTimer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F87B83F20FB3D94007A3D64 /* CircleTimer.storyboard */; };
@@ -21,6 +23,8 @@
 
 /* Begin PBXFileReference section */
 		0B0CA99BA2CDEA0734A20342 /* Pods-FlatTimer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlatTimer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlatTimer/Pods-FlatTimer.debug.xcconfig"; sourceTree = "<group>"; };
+		3F1CF88421032C6F0043DB19 /* CGPoint+Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Vector.swift"; sourceTree = "<group>"; };
+		3F1CF886210355F40043DB19 /* CircularLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLayer.swift; sourceTree = "<group>"; };
 		3F87B81E20FB3CEC007A3D64 /* FlatTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlatTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F87B82120FB3CEC007A3D64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F87B82D20FB3CEE007A3D64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -93,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				3F87B84620FB3F55007A3D64 /* UIColor+FlatTimer.swift */,
+				3F1CF88421032C6F0043DB19 /* CGPoint+Vector.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -119,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				3F87B84420FB3EBE007A3D64 /* CircleTimerView.swift */,
+				3F1CF886210355F40043DB19 /* CircularLayer.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -258,9 +264,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F1CF887210355F40043DB19 /* CircularLayer.swift in Sources */,
 				3F87B84220FB3DB4007A3D64 /* CircleTimerViewController.swift in Sources */,
 				3F87B82220FB3CEC007A3D64 /* AppDelegate.swift in Sources */,
 				3F87B84D20FB5FF7007A3D64 /* DIContainer.swift in Sources */,
+				3F1CF88521032C6F0043DB19 /* CGPoint+Vector.swift in Sources */,
 				3F87B84720FB3F55007A3D64 /* UIColor+FlatTimer.swift in Sources */,
 				3F87B84F20FB602D007A3D64 /* CircleTimerViewModel.swift in Sources */,
 				3F87B84520FB3EBE007A3D64 /* CircleTimerView.swift in Sources */,

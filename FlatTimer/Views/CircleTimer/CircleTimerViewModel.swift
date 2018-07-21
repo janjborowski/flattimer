@@ -11,41 +11,54 @@ import RxSwift
 import RxCocoa
 
 final class CircleTimerViewModel {
+
     private let perSecond: TimeInterval = 25
+    let maxSeconds = 12
 
     private let bag = DisposeBag()
     private let executionInProgress = BehaviorSubject<Bool>(value: false)
     private let timerInterval = PublishSubject<Int>()
 
-    let timeLength: TimeInterval = 12
+    private var secondsToIntervals: Observable<Int> {
+        return secondsToStart.map { [weak self] (seconds) -> Int in
+            guard let perSecond = self?.perSecond else {
+                return seconds
+            }
+
+            return Int(perSecond) * seconds
+        }
+    }
+
+    let secondsToStart: BehaviorSubject<Int>
 
     var isExecuting: Observable<Bool> {
         return executionInProgress.asObservable()
+    }
+
+    var timerDisplayValue: Observable<String> {
+        return Observable.merge(secondsToIntervals, timerInterval)
+            .map { Double($0) }
+            .map { [weak self] (interval) -> String in
+                guard let perSecond = self?.perSecond else {
+                    return ""
+                }
+
+                let seconds = floor(interval / perSecond)
+                let partialSeconds = Int(((interval / perSecond) - seconds) * 100)
+                return String(format: "%02.0f", seconds) + ":" + String(format: "%02d", partialSeconds)
+        }
     }
 
     var statusBarStyle: UIStatusBarStyle {
         return (try? executionInProgress.value()) ?? false ? .lightContent : .default
     }
 
-    var timerDisplayValue: Observable<String> {
-        let perSecondObservable = Observable.of(perSecond)
-        return Observable.combineLatest(timerInterval, perSecondObservable)
-            .map { (data) -> String in
-                let interval = data.0
-                let perSecond = data.1
-                let seconds = interval / Int(perSecond)
-                let partialSeconds = Int((Double(interval) / perSecond - Double(seconds)) * 100)
-                return String(format: "%02d", seconds) + ":" + String(format: "%02d", partialSeconds)
-            }
-    }
-
     init() {
-        let period = 1.0 / perSecond
-        let maxLength = Int(timeLength * perSecond)
-        let lengthObservable = Observable.of(maxLength)
-        let timer = Observable<Int>.timer(0, period: period, scheduler: MainScheduler.instance)
+        secondsToStart = BehaviorSubject(value: maxSeconds)
 
-        let reversedTimer = Observable.combineLatest(lengthObservable, timer)
+        let period = 1.0 / perSecond
+        let timer = Observable<Int>.timer(0, period: period, scheduler: MainScheduler.instance)
+        let reversedTimer = Observable.combineLatest(secondsToIntervals, timer)
             .map { $0.0 - $0.1 }
 
         let countdown = executionInProgress.filter { $0 }
@@ -66,7 +79,7 @@ final class CircleTimerViewModel {
             .disposed(by: bag)
 
         executionInProgress.filter { !$0 }
-            .map { _ in maxLength }
+            .withLatestFrom(secondsToIntervals)
             .bind(to: timerInterval)
             .disposed(by: bag)
     }

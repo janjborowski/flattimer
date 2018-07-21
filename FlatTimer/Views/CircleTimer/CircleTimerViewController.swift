@@ -27,6 +27,8 @@ final class CircleTimerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         subscribe()
+
+        circleTimerView.numberOfMarkers = viewModel.maxSeconds
     }
 
     private func subscribe() {
@@ -63,13 +65,10 @@ final class CircleTimerViewController: UIViewController {
             .withLatestFrom(viewModel.isExecuting).share()
 
         buttonTapOnExecuting.filter { !$0 }
-            .subscribe(onNext: { [weak self] (_) in
-                guard let weakSelf = self else {
-                    return
-                }
-
-                weakSelf.circleTimerView.startAnimation(duration: weakSelf.viewModel.timeLength)
-                weakSelf.viewModel.startTimer()
+            .withLatestFrom(viewModel.secondsToStart)
+            .subscribe(onNext: { [weak self] (interval) in
+                self?.circleTimerView.startAnimation(duration: TimeInterval(interval))
+                self?.viewModel.startTimer()
             })
             .disposed(by: bag)
 
@@ -78,6 +77,14 @@ final class CircleTimerViewController: UIViewController {
                 self?.viewModel.stopTimer()
                 self?.circleTimerView.stopAnimation()
             })
+            .disposed(by: bag)
+
+        circleTimerView.part
+            .bind(to: viewModel.secondsToStart)
+            .disposed(by: bag)
+
+        viewModel.isExecuting
+            .bind(to: circleTimerView.isBlocked)
             .disposed(by: bag)
 
         viewModel.timerDisplayValue

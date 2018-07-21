@@ -7,93 +7,59 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class CircleTimerView: UIView {
 
     private let circleThickness: CGFloat = 42
-
     private let markerIndentation: CGFloat = 3
     private let markerWidth: CGFloat = 5
 
-    private let numberOfMarkers = 12
+    private let fullAngle = 2 * CGFloat.pi
+    private let angleOffset = -CGFloat.pi / 2
 
-    private weak var paleCircleLayer: CAShapeLayer?
-    private weak var orangeCircleLayer: CAShapeLayer?
+    private weak var paleCircleLayer: CircularLayer?
+    private weak var orangeCircleLayer: CircularLayer?
     private weak var animatedLayer: CAShapeLayer?
 
+    private let currentPart = PublishSubject<Int>()
+    let isBlocked = BehaviorRelay<Bool>(value: true)
+
+    var part: Observable<Int> {
+        return currentPart.asObservable()
+    }
+
     var markerColor: UIColor = .darkOrange
+    var numberOfMarkers = 0
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        let recognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(recognizer:)))
+        addGestureRecognizer(recognizer)
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        addPaleCirle(in: bounds)
-        addOrangeCircle(in: bounds)
-    }
 
-    private func addPaleCirle(in rect: CGRect) {
-        guard paleCircleLayer == nil else {
-            return
+        if paleCircleLayer == nil,
+            orangeCircleLayer == nil {
+            paleCircleLayer = addCircularLayer(with: .paleWhite, in: bounds)
+            orangeCircleLayer = addCircularLayer(with: .lightOrange, in: bounds)
         }
-        let startAngle: CGFloat = 0
-        let endAngle: CGFloat = 2 * .pi
-
-        let shapeLayer = createCircularLayer(
-            rect: rect,
-            color: .paleWhite,
-            startAngle: startAngle,
-            endAngle: endAngle
-        )
-
-        layer.addSublayer(shapeLayer)
-        paleCircleLayer = shapeLayer
     }
 
-    private func addOrangeCircle(in rect: CGRect) {
-        guard orangeCircleLayer == nil else {
-            return
-        }
-        let startAngle: CGFloat = 0
-        let endAngle: CGFloat = 2 * .pi
-
-        let shapeLayer = createCircularLayer(
-            rect: rect,
-            color: .lightOrange,
-            startAngle: startAngle,
-            endAngle: endAngle
-        )
-
+    private func addCircularLayer(with color: UIColor, in rect: CGRect) -> CircularLayer {
+        let shapeLayer = CircularLayer(color: color, rect: rect, angleOffset: angleOffset, lineWidth: circleThickness)
+        shapeLayer.showCircle(startAngle: 0, endAngle: fullAngle)
         layer.addSublayer(shapeLayer)
-        orangeCircleLayer = shapeLayer
-    }
-
-    private func createCircularLayer(rect: CGRect, color: UIColor, startAngle: CGFloat, endAngle: CGFloat) -> CAShapeLayer {
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.strokeColor = color.cgColor
-        shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.lineWidth = circleThickness
-
-        let center = CGPoint(x: rect.width / 2, y: rect.height / 2)
-        let radius: CGFloat = max(rect.width, rect.height)
-
-        shapeLayer.path = UIBezierPath(
-            arcCenter: center,
-            radius: radius/2 - circleThickness/2,
-            startAngle: startAngle,
-            endAngle: endAngle,
-            clockwise: true
-        ).cgPath
         return shapeLayer
     }
 
     private func createAnimatedLayer(duration: TimeInterval) -> CAShapeLayer {
-        let startAngle: CGFloat = -.pi / 2
-        let endAngle: CGFloat = 3 * .pi / 2
-
-        let shapeLayer = createCircularLayer(
-            rect: bounds,
-            color: .lightOrange,
-            startAngle: startAngle,
-            endAngle: endAngle
-        )
+        let shapeLayer = CircularLayer(color: .lightOrange, rect: bounds, angleOffset: angleOffset, lineWidth: circleThickness)
+        shapeLayer.path = orangeCircleLayer?.path?.copy()
 
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = 1.0
@@ -117,15 +83,47 @@ class CircleTimerView: UIView {
         layer.addSublayer(animatedLayer)
 
         self.animatedLayer = animatedLayer
-
         orangeCircleLayer?.isHidden = true
     }
 
     func stopAnimation() {
         animatedLayer?.removeFromSuperlayer()
         animatedLayer = nil
-
         orangeCircleLayer?.isHidden = false
+    }
+
+    @objc func handlePan(recognizer: UIPanGestureRecognizer) {
+        guard !isBlocked.value, numberOfMarkers > 0 else {
+            return
+        }
+
+        let angle = computeAngleBetweenStart(and: recognizer)
+        let fullAnglePercentage = angle / fullAngle
+        let partNumber = round(fullAnglePercentage * CGFloat(numberOfMarkers))
+
+        currentPart.onNext(Int(partNumber))
+        let partPercentage = partNumber / CGFloat(numberOfMarkers)
+        let finalAngle = partPercentage * fullAngle
+
+        orangeCircleLayer?.showCircle(startAngle: 0, endAngle: finalAngle)
+    }
+
+    private func computeAngleBetweenStart(and recognizer: UIPanGestureRecognizer) -> CGFloat {
+        let topMiddlePoint = CGPoint(x: bounds.midX, y: 0)
+        let translation = recognizer.location(in: self)
+
+        let centerBounds = CGPoint(x: bounds.midX, y: bounds.midY)
+        let vectorA = topMiddlePoint.vector(with: centerBounds)
+        let vectorB = translation.vector(with: centerBounds)
+
+        let preCosAngle = (vectorA.x * vectorB.x + vectorA.y * vectorB.y) / ( vectorA.vectorLength * vectorB.vectorLength )
+
+        if vectorB.x < 0 {
+            return fullAngle - acos(preCosAngle)
+        }
+        else {
+            return acos(preCosAngle)
+        }
     }
 
 }
