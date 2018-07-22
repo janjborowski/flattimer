@@ -63,28 +63,37 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PHo-DY-eYv">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PHo-DY-eYv" userLabel="Top space">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="85"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oLB-ef-nWA" userLabel="Flash view">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.8901960784313725" green="0.38823529411764707" blue="0.37647058823529411" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="oLB-ef-nWA" firstAttribute="leading" secondItem="gSW-dj-uli" secondAttribute="leading" id="5CW-la-IZe"/>
                             <constraint firstItem="Zho-Ll-uIL" firstAttribute="bottom" secondItem="QIy-vf-wHu" secondAttribute="bottom" constant="20" id="GDl-4P-Q1R"/>
                             <constraint firstItem="Zho-Ll-uIL" firstAttribute="trailing" secondItem="QIy-vf-wHu" secondAttribute="trailing" constant="16" id="GIj-rR-nu5"/>
                             <constraint firstItem="QIy-vf-wHu" firstAttribute="leading" secondItem="Zho-Ll-uIL" secondAttribute="leading" constant="16" id="Icz-WL-tTx"/>
                             <constraint firstItem="PHo-DY-eYv" firstAttribute="trailing" secondItem="Zho-Ll-uIL" secondAttribute="trailing" id="LH0-Dc-jE1"/>
                             <constraint firstItem="QWA-om-i3O" firstAttribute="top" secondItem="PHo-DY-eYv" secondAttribute="bottom" id="M2n-Y8-keK"/>
                             <constraint firstItem="PHo-DY-eYv" firstAttribute="leading" secondItem="Zho-Ll-uIL" secondAttribute="leading" id="Pph-RQ-7pB"/>
+                            <constraint firstItem="oLB-ef-nWA" firstAttribute="top" secondItem="gSW-dj-uli" secondAttribute="top" id="W26-pW-F94"/>
                             <constraint firstItem="QWA-om-i3O" firstAttribute="width" secondItem="gSW-dj-uli" secondAttribute="width" multiplier="0.9" id="XGh-2f-Qpi"/>
                             <constraint firstItem="QWA-om-i3O" firstAttribute="centerX" secondItem="gSW-dj-uli" secondAttribute="centerX" id="Z4F-z6-qhJ"/>
                             <constraint firstItem="PHo-DY-eYv" firstAttribute="top" secondItem="gSW-dj-uli" secondAttribute="top" id="nKw-lA-WFB"/>
+                            <constraint firstAttribute="trailing" secondItem="oLB-ef-nWA" secondAttribute="trailing" id="pdB-Rh-VkB"/>
                             <constraint firstItem="PHo-DY-eYv" firstAttribute="height" secondItem="gSW-dj-uli" secondAttribute="height" multiplier="0.15" id="q5a-6s-dZo"/>
+                            <constraint firstAttribute="bottom" secondItem="oLB-ef-nWA" secondAttribute="bottom" id="yoJ-Hw-cg2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Zho-Ll-uIL"/>
                     </view>
                     <connections>
                         <outlet property="circleTimerView" destination="QWA-om-i3O" id="Sts-jV-qUV"/>
+                        <outlet property="flashView" destination="oLB-ef-nWA" id="nvl-yO-aI7"/>
                         <outlet property="startButton" destination="QIy-vf-wHu" id="yUF-Lr-tDq"/>
                         <outlet property="timerLabel" destination="Pwt-eE-UDm" id="q43-8B-6pJ"/>
                     </connections>

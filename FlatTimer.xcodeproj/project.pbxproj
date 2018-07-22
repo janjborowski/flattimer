@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		3F1CF88521032C6F0043DB19 /* CGPoint+Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1CF88421032C6F0043DB19 /* CGPoint+Vector.swift */; };
 		3F1CF887210355F40043DB19 /* CircularLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1CF886210355F40043DB19 /* CircularLayer.swift */; };
+		3F1CF88921035DFB0043DB19 /* CircularMarkersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1CF88821035DFB0043DB19 /* CircularMarkersView.swift */; };
+		3F1CF88B21035F410043DB19 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1CF88A21035F410043DB19 /* Constants.swift */; };
+		3F1CF88F2103616A0043DB19 /* CircularMarkersViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1CF88E2103616A0043DB19 /* CircularMarkersViewConfiguration.swift */; };
+		3F1CF891210367000043DB19 /* CircleTimerViewConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1CF890210367000043DB19 /* CircleTimerViewConfiguration.swift */; };
 		3F87B82220FB3CEC007A3D64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F87B82120FB3CEC007A3D64 /* AppDelegate.swift */; };
 		3F87B83B20FB3D65007A3D64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F87B83920FB3D65007A3D64 /* Assets.xcassets */; };
 		3F87B84020FB3D94007A3D64 /* CircleTimer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F87B83F20FB3D94007A3D64 /* CircleTimer.storyboard */; };
@@ -25,6 +29,10 @@
 		0B0CA99BA2CDEA0734A20342 /* Pods-FlatTimer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlatTimer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlatTimer/Pods-FlatTimer.debug.xcconfig"; sourceTree = "<group>"; };
 		3F1CF88421032C6F0043DB19 /* CGPoint+Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Vector.swift"; sourceTree = "<group>"; };
 		3F1CF886210355F40043DB19 /* CircularLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLayer.swift; sourceTree = "<group>"; };
+		3F1CF88821035DFB0043DB19 /* CircularMarkersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularMarkersView.swift; sourceTree = "<group>"; };
+		3F1CF88A21035F410043DB19 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3F1CF88E2103616A0043DB19 /* CircularMarkersViewConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularMarkersViewConfiguration.swift; sourceTree = "<group>"; };
+		3F1CF890210367000043DB19 /* CircleTimerViewConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleTimerViewConfiguration.swift; sourceTree = "<group>"; };
 		3F87B81E20FB3CEC007A3D64 /* FlatTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlatTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F87B82120FB3CEC007A3D64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F87B82D20FB3CEE007A3D64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -52,6 +60,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F1CF88C210361430043DB19 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F1CF88D210361580043DB19 /* Local */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3F1CF88D210361580043DB19 /* Local */ = {
+			isa = PBXGroup;
+			children = (
+				3F1CF88E2103616A0043DB19 /* CircularMarkersViewConfiguration.swift */,
+				3F1CF890210367000043DB19 /* CircleTimerViewConfiguration.swift */,
+			);
+			path = Local;
+			sourceTree = "<group>";
+		};
 		3F87B81520FB3CEC007A3D64 = {
 			isa = PBXGroup;
 			children = (
@@ -73,9 +98,10 @@
 		3F87B82020FB3CEC007A3D64 /* FlatTimer */ = {
 			isa = PBXGroup;
 			children = (
-				3F87B83820FB3D65007A3D64 /* Resources */,
-				3F87B83620FB3D65007A3D64 /* Utilities */,
+				3F1CF88C210361430043DB19 /* Model */,
 				3F87B83320FB3D65007A3D64 /* Views */,
+				3F87B83620FB3D65007A3D64 /* Utilities */,
+				3F87B83820FB3D65007A3D64 /* Resources */,
 				3F87B82120FB3CEC007A3D64 /* AppDelegate.swift */,
 				3F87B84C20FB5FF7007A3D64 /* DIContainer.swift */,
 				3F87B82D20FB3CEE007A3D64 /* Info.plist */,
@@ -98,6 +124,7 @@
 			children = (
 				3F87B84620FB3F55007A3D64 /* UIColor+FlatTimer.swift */,
 				3F1CF88421032C6F0043DB19 /* CGPoint+Vector.swift */,
+				3F1CF88A21035F410043DB19 /* Constants.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -125,6 +152,7 @@
 			children = (
 				3F87B84420FB3EBE007A3D64 /* CircleTimerView.swift */,
 				3F1CF886210355F40043DB19 /* CircularLayer.swift */,
+				3F1CF88821035DFB0043DB19 /* CircularMarkersView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -267,7 +295,11 @@
 				3F1CF887210355F40043DB19 /* CircularLayer.swift in Sources */,
 				3F87B84220FB3DB4007A3D64 /* CircleTimerViewController.swift in Sources */,
 				3F87B82220FB3CEC007A3D64 /* AppDelegate.swift in Sources */,
+				3F1CF891210367000043DB19 /* CircleTimerViewConfiguration.swift in Sources */,
+				3F1CF88F2103616A0043DB19 /* CircularMarkersViewConfiguration.swift in Sources */,
 				3F87B84D20FB5FF7007A3D64 /* DIContainer.swift in Sources */,
+				3F1CF88921035DFB0043DB19 /* CircularMarkersView.swift in Sources */,
+				3F1CF88B21035F410043DB19 /* Constants.swift in Sources */,
 				3F1CF88521032C6F0043DB19 /* CGPoint+Vector.swift in Sources */,
 				3F87B84720FB3F55007A3D64 /* UIColor+FlatTimer.swift in Sources */,
 				3F87B84F20FB602D007A3D64 /* CircleTimerViewModel.swift in Sources */,
