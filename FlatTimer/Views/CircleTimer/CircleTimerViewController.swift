@@ -111,12 +111,11 @@ final class CircleTimerViewController: UIViewController {
             return
         }
 
-        let sideLength: TimeInterval = 0.4
         flashView.isHidden = false
-        UIView.animate(withDuration: sideLength, delay: 0, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             flashView.alpha = 1
         }) { (_) in
-            UIView.animate(withDuration: sideLength, delay: 0, options: .curveEaseIn, animations: {
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
                 flashView.alpha = 0
             }, completion: { (_) in
                 flashView.isHidden = true

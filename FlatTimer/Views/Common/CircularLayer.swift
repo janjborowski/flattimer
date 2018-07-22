@@ -31,7 +31,7 @@ class CircularLayer: CAShapeLayer {
     }
 
     private func createBezierPath(rect: CGRect, startAngle: CGFloat, endAngle: CGFloat) -> UIBezierPath {
-        let center = CGPoint(x: rect.width / 2, y: rect.height / 2)
+        let center = CGPoint(x: rect.origin.x + rect.width / 2, y: rect.origin.y + rect.height / 2)
         let radius: CGFloat = max(rect.width, rect.height)
 
         return UIBezierPath(

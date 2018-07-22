@@ -16,6 +16,18 @@ final class CircularMarkersView: UIView {
         }
     }
 
+    var selectedMarker = 0  {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+
+    var selectedMarkerHidden = false {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
@@ -32,7 +44,7 @@ final class CircularMarkersView: UIView {
         }
         let context = UIGraphicsGetCurrentContext()!
         context.clear(rect)
-
+        
         context.saveGState()
         configuration.color.setFill()
 
@@ -45,13 +57,23 @@ final class CircularMarkersView: UIView {
         )
         let markerPath = UIBezierPath(rect: bezierRect)
 
+        let extendedRect = bezierRect.insetBy(dx: -configuration.selectionWidth, dy: -configuration.selectionWidth)
+        let selectedBezier = UIBezierPath(rect: extendedRect)
+
         context.translateBy(x: rect.width / 2, y: rect.height / 2)
+        context.scaleBy(x: 1, y: -1)
 
         for i in 1...configuration.numberOfMarkers {
             context.saveGState()
-            let angle = markerArc * CGFloat(i)
+            let angle = -markerArc * CGFloat(i)
             context.rotate(by: angle)
             context.translateBy(x: 0, y: rect.height / 2 - configuration.markerSize)
+
+            if selectedMarker == i, !selectedMarkerHidden {
+                UIColor.lightOrange.setFill()
+                selectedBezier.fill()
+                configuration.color.setFill()
+            }
 
             markerPath.fill()
             context.restoreGState()

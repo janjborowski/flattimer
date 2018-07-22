@@ -71,8 +71,8 @@
 		3F1CF88D210361580043DB19 /* Local */ = {
 			isa = PBXGroup;
 			children = (
-				3F1CF88E2103616A0043DB19 /* CircularMarkersViewConfiguration.swift */,
 				3F1CF890210367000043DB19 /* CircleTimerViewConfiguration.swift */,
+				3F1CF88E2103616A0043DB19 /* CircularMarkersViewConfiguration.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";

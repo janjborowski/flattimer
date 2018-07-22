@@ -10,12 +10,15 @@ import UIKit
 
 struct CircleTimerViewConfiguration {
 
-    var markerStillColor: UIColor
-    var markerAnimatedColor: UIColor
-    var numberOfMarkers: Int
+    var circleThickness: CGFloat = 42
+    var partMarkerOffset: CGFloat = 3
 
-    static var `default`: CircleTimerViewConfiguration {
-        return CircleTimerViewConfiguration(markerStillColor: .darkOrange, markerAnimatedColor: .darkBlue, numberOfMarkers: 0)
-    }
+    var markerIndentation: CGFloat = 3
+    var markerWidth: CGFloat = 5
+    var angleOffset = -CGFloat.pi / 2
+
+    var markerStillColor = UIColor.darkOrange
+    var markerAnimatedColor = UIColor.darkBlue
+    var numberOfMarkers = 0
 
 }

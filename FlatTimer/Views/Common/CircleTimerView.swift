@@ -10,20 +10,20 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class CircleTimerView: UIView {
+final class CircleTimerView: UIView {
 
-    private let circleThickness: CGFloat = 42
-    private let markerIndentation: CGFloat = 3
-    private let markerWidth: CGFloat = 5
-    private let angleOffset = -CGFloat.pi / 2
+    private let sideMargin: CGFloat = 5
 
     private let markersView = CircularMarkersView()
     private weak var paleCircleLayer: CircularLayer?
     private weak var orangeCircleLayer: CircularLayer?
     private weak var animatedLayer: CAShapeLayer?
 
-    private var configuration = CircleTimerViewConfiguration.default
-    
+    private var configuration = CircleTimerViewConfiguration()
+    private var rectToDraw: CGRect {
+        return bounds.insetBy(dx: sideMargin, dy: sideMargin)
+    }
+
     private let currentPart = PublishSubject<Int>()
     let isBlocked = BehaviorRelay<Bool>(value: true)
 
@@ -60,11 +60,12 @@ class CircleTimerView: UIView {
             paleCircleLayer = addCircularLayer(with: .paleWhite, in: bounds)
             orangeCircleLayer = addCircularLayer(with: .lightOrange, in: bounds)
 
-            let markerSize = circleThickness - 2 * markerIndentation
+            let markerSize = configuration.circleThickness - 2 * configuration.markerIndentation
             markersView.configuration = CircularMarkersViewConfiguration(
-                markerIndentation: markerIndentation,
-                markerWidth: markerWidth,
+                markerIndentation: configuration.markerIndentation + sideMargin,
+                markerWidth: configuration.markerWidth,
                 markerSize: markerSize,
+                selectionWidth: sideMargin,
                 numberOfMarkers: configuration.numberOfMarkers,
                 color: configuration.markerStillColor
             )
@@ -73,14 +74,24 @@ class CircleTimerView: UIView {
     }
 
     private func addCircularLayer(with color: UIColor, in rect: CGRect) -> CircularLayer {
-        let shapeLayer = CircularLayer(color: color, rect: rect, angleOffset: angleOffset, lineWidth: circleThickness)
+        let shapeLayer = CircularLayer(
+            color: color,
+            rect: rectToDraw,
+            angleOffset: configuration.angleOffset,
+            lineWidth: configuration.circleThickness
+        )
         shapeLayer.showCircle(startAngle: 0, endAngle: Constants.fullAngle)
         layer.addSublayer(shapeLayer)
         return shapeLayer
     }
 
     private func createAnimatedLayer(duration: TimeInterval) -> CAShapeLayer {
-        let shapeLayer = CircularLayer(color: .lightOrange, rect: bounds, angleOffset: angleOffset, lineWidth: circleThickness)
+        let shapeLayer = CircularLayer(
+            color: .lightOrange,
+            rect: bounds, angleOffset:
+            configuration.angleOffset,
+            lineWidth: configuration.circleThickness
+        )
         shapeLayer.path = orangeCircleLayer?.path?.copy()
 
         let animation = CABasicAnimation(keyPath: "strokeEnd")
@@ -108,6 +119,7 @@ class CircleTimerView: UIView {
         orangeCircleLayer?.isHidden = true
 
         bringSubview(toFront: markersView)
+        markersView.selectedMarkerHidden = true
         markersView.configuration.color = configuration.markerAnimatedColor
     }
 
@@ -115,11 +127,13 @@ class CircleTimerView: UIView {
         animatedLayer?.removeFromSuperlayer()
         animatedLayer = nil
         orangeCircleLayer?.isHidden = false
+        markersView.selectedMarkerHidden = false
         markersView.configuration.color = configuration.markerStillColor
     }
 
     func update(numberOfMarkers: Int) {
         configuration.numberOfMarkers = numberOfMarkers
+        markersView.selectedMarker = numberOfMarkers
     }
 
     @objc func handlePan(recognizer: UIPanGestureRecognizer) {
@@ -132,11 +146,16 @@ class CircleTimerView: UIView {
         let fullAnglePercentage = angle / Constants.fullAngle
         let partNumber = round(fullAnglePercentage * CGFloat(numberOfMarkers))
 
+        guard partNumber > 0 else {
+            return
+        }
+
         currentPart.onNext(Int(partNumber))
         let partPercentage = partNumber / CGFloat(numberOfMarkers)
         let finalAngle = partPercentage * Constants.fullAngle
 
         orangeCircleLayer?.showCircle(startAngle: 0, endAngle: finalAngle)
+        markersView.selectedMarker = Int(partNumber)
     }
 
     private func computeAngleBetweenStart(and recognizer: UIPanGestureRecognizer) -> CGFloat {
